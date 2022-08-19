@@ -3,6 +3,8 @@ let game = {
     playerMoves: [],
     score: 0,
     turnNumber: 0,
+    lastButton: "",
+    turnInProgress: false,
     choices: ["button1", "button2", "button3", "button4"]
 };
 
@@ -33,12 +35,14 @@ function addTurn() {
 }
 
 function showTurns() {
+    game.turnInProgress = true;
     game.turnNumber = 0;
     let turns = setInterval(function () {
         lightsOn(game.currentGame[game.turnNumber]);
         game.turnNumber++;
         if (game.turnNumber >= game.currentGame.length) {
             clearInterval(turns);
+            game.turnInProgress = false;
         }
     }, 800);
 }
@@ -48,6 +52,23 @@ function lightsOn(circ) {
     setTimeout(function () {
         document.getElementById(circ).classList.remove(circ + "light");
     }, 400); /* removes light class after 400 ms */
+}
+
+/* Want to check if player move matches computer move. 
+If at end of sequence then increment the score and add another turn. 
+If the moves do not match display alert and start a new game. */
+function playerTurn() {
+    let i = game.playerMoves.length - 1;
+    if (game.currentGame[i] === game.playerMoves[i]) {
+        if (game.currentGame.length === game.playerMoves.length) {
+            game.score++;
+            showScore();
+            addTurn();
+        }
+    } else {
+        alert("Wrong move!");
+        newGame();
+    }
 }
 
 function showScore() {
