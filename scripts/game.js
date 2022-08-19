@@ -22,7 +22,7 @@ function lightsOn(circ) {
     document.getElementById(circ).classList.add(circ + "light");
     setTimeout(function () {
         document.getElementById(circ).classList.remove(circ + "light");
-    }, 400);
+    }, 400); /* removes light class after 400 ms */
 }
 
 function showScore() {
